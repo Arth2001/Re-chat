@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ user.username }}!</h1>
+        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+    </header>
+    
+    <div class="container">
+        <div class="message-form">
+            <form method="post">
+                <label for="receiver">To:</label>
+                <input type="text" name="receiver" id="receiver" required>
+                <label for="content">Message:</label>
+                <textarea name="content" id="content" required></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        
+        <div class="messages" id="chat-box">
+            <ul class="message-list">
+                {% for message in messages_sent %}
+                <li class="message">
+                    <span class="message-meta">To {{ message.receiver.username }}:</span>
+                    <span class="message-content">{{ message.content }}</span>
+                    <span class="message-timestamp">{{ message.timestamp }}</span>
+                </li>
+                {% endfor %}
+                {% for message in messages_received %}
+                <li class="message">
+                    <span class="message-meta">From {{ message.sender.username }}:</span>
+                    <span class="message-content">{{ message.content }}</span>
+                    <span class="message-timestamp">{{ message.timestamp }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="active-users">
+            <h2>Active Users</h2>
+            <ul id="active-users">
+                <!-- Active users will be listed here -->
+                
+                {% for active_user in active_users %}
+                <li>{{ active_user.username }}</li>
+                {% endfor %}
+                
+            </ul>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/active.js') }}"></script>
+</body>
+</html>
