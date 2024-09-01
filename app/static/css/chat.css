@@ -1,0 +1,159 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #000;
+    color: #0f0;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+header {
+    background: #111;
+    border-bottom: 1px solid #333;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: #0f0;
+    margin-bottom: 10px;
+}
+
+.logout-button {
+    color: #0f0;
+    text-decoration: none;
+    border: 1px solid #0f0;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background: #111;
+}
+
+.logout-button:hover {
+    background: #0f0;
+    color: #000;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 800px; /* Adjust width for larger screens */
+}
+
+.message-form {
+    margin-bottom: 20px;
+}
+
+.message-form form {
+    background: #222;
+    padding: 10px;
+    border: 1px solid #0f0;
+    border-radius: 5px; /* Rounded corners for modern look */
+}
+
+.message-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.message-form input,
+.message-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #0f0;
+    background: #111;
+    color: #0f0;
+    margin-bottom: 10px;
+    border-radius: 3px; /* Rounded corners */
+}
+
+.message-form button {
+    background: #0f0;
+    color: #000;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 3px; /* Rounded corners */
+}
+
+.message-form button:hover {
+    background: #0c0;
+}
+
+.messages {
+    background: #111;
+    padding: 10px;
+    border: 1px solid #0f0;
+    border-radius: 5px; /* Rounded corners */
+    max-height: 400px; /* Limit height for better scroll behavior */
+    overflow-y: auto;
+}
+
+.message-list {
+    list-style: none;
+    padding: 0;
+}
+
+.message {
+    padding: 5px;
+    border-bottom: 1px solid #333;
+}
+
+.message:nth-child(odd) {
+    background: #222;
+}
+
+.message-meta {
+    font-weight: bold;
+}
+
+.message-content {
+    display: block;
+    margin: 5px 0;
+}
+
+.message-timestamp {
+    color: #999;
+    font-size: 0.8em;
+}
+
+
+
+
+/* active user css */
+/* Existing styles */
+
+.active-users {
+    background: #222;
+    border: 1px solid #0f0;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.active-users h2 {
+    color: #0f0;
+    margin-bottom: 10px;
+}
+
+#active-users {
+    list-style: none;
+    padding: 0;
+}
+
+#active-users li {
+    padding: 5px;
+    border-bottom: 1px solid #333;
+}
+
+#active-users li:nth-child(odd) {
+    background: #111;
+}
+
+#active-users li:hover {
+    background: #333;
+}
