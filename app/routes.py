@@ -6,7 +6,7 @@ from app import db, bcrypt
 from .models import User, Message
 from flask import current_app as app
 from flask import jsonify
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, login_user, logout_user
 from .utils import set_user_online, set_user_offline, update_last_active, get_online_users
 
 
@@ -46,14 +46,17 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and bcrypt.check_password_hash(user.password, password):
             session['user_id'] = user.id
-            return redirect(url_for('chat'))
+            login_user(user)
+            user.is_active = True
+            user.is_online = True
+            return redirect(url_for('chats'))
         else:
             flash('Invalid username or password.')
     
     return render_template('login.html')
 
-@app.route('/chats', methods=['GET', 'POST'])
-def chats():
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
@@ -78,9 +81,9 @@ def chats():
 
 ################################### testing code ##################################################
 
-@app.route('/chat', methods=['GET', 'POST'])
+@app.route('/chats', methods=['GET', 'POST'])
 @login_required
-def chat():
+def chats():
     if 'user_id' not in session:
         app.logger.debug('User ID not in session. Redirecting to login.')
         return redirect(url_for('login'))
@@ -131,15 +134,53 @@ def before_request():
 
 
 
+# @app.route('/active_users')
+# def active_users():
+#     app.logger.debug("Fetching active users")
+#     active_users = User.query.filter_by(is_online=True).all()
+#     return jsonify([user.to_dict() for user in active_users])
+
+
 @app.route('/active_users')
 def active_users():
-    users = User.query.filter_by(is_online=True).all()
-    return jsonify([{'username': user.username} for user in users])
+    app.logger.debug("Fetching active users")
+    active_users = User.query.filter_by(is_online=True, is_active=True).all()
+    
+    # Convert the list of User objects to a list of dictionaries
+    users_list = [{'username': user.username} for user in active_users]
+    # Return the list of active users as JSON
+    return jsonify(users_list)
+
+
+@app.route('/inactive_users')
+def inactive_users():
+    app.logger.debug("Fetching inactive users")
+    # Fetch users who are not online and are marked inactive
+    users = User.query.filter_by(is_online=False).all()
+    user_list = [{'username': user.username} for user in users]
+    return jsonify(user_list)
 
 
 
 
 @app.route('/logout')
 def logout():
+    # logout_user()
+    user = User.query.get(session['user_id'])
+    if user:
+        user.is_online = False
+        # user.is_active = False
+        db.session.commit()
     session.pop('user_id', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
+# @app.route('/logout')
+# def logout():
+#     user_id = session.get('user_id')
+#     if user_id:
+#         user = User.query.get(user_id)
+#         if user:
+#             app.logger.debug(f'Logging out user: {user.username}, setting is_online to False')
+#             user.is_online = False  # Set user as offline
+#             db.session.commit()
+#             session.pop('user_id', None)  # Remove user ID from session
+    return redirect(url_for('login'))

@@ -24,4 +24,5 @@ def get_user_by_username(username: str):
     return User.query.filter_by(username=username).first()
 
 def get_online_users():
-    return User.query.filter_by(is_online=True).all()
+    online_users = User.query.filter_by(is_online=True).all()
+    return [user.to_dict() for user in online_users]

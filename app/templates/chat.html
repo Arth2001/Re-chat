@@ -53,9 +53,19 @@
                 
             </ul>
         </div>
+        <div class="inactive-users">
+            <h2>Inactive Users</h2>
+            <ul id="inactive-users">
+                <!-- Inactive users will be listed here -->
+                {% for inactive_user in inactive_users %}
+                <li>{{ inactive_user.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
     <script src="{{ url_for('static', filename='js/active.js') }}"></script>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 </body>
 </html>
