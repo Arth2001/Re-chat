@@ -3,7 +3,7 @@
 from flask import render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, bcrypt 
-from .models import User, Message
+from .models import User, Message, ChatSession
 from flask import current_app as app
 from flask import jsonify
 from flask_login import login_required, current_user, login_user, logout_user
@@ -173,14 +173,45 @@ def logout():
         db.session.commit()
     session.pop('user_id', None)
     return redirect(url_for('login'))
-# @app.route('/logout')
-# def logout():
-#     user_id = session.get('user_id')
-#     if user_id:
-#         user = User.query.get(user_id)
-#         if user:
-#             app.logger.debug(f'Logging out user: {user.username}, setting is_online to False')
-#             user.is_online = False  # Set user as offline
-#             db.session.commit()
-#             session.pop('user_id', None)  # Remove user ID from session
-    return redirect(url_for('login'))
+
+
+
+
+
+
+
+
+################################ chat session #########################
+@app.route('/chat_session/<int:session_id>', methods=['GET', 'POST'])
+@login_required
+def chat_session(session_id):
+    # Retrieve the chat session and other user details
+    session = ChatSession.query.get(session_id)
+    if session is None or (session.user_1_id != current_user.id and session.user_2_id != current_user.id):
+        return "Chat session not found or access denied", 404
+    
+    # Determine the other user's ID
+    other_user_id = session.user_1_id if session.user_1_id != current_user.id else session.user_2_id
+    other_user = User.query.get(other_user_id)  # Assuming you have a User model
+
+    return render_template('chat_session.html', other_user=other_user)
+
+
+
+
+
+# Assuming user_1 and user_2 are User instances
+from app.models import ChatSession
+from app import db
+
+def start_chat_session(user_1, user_2):
+    # Check if the session already exists between these users
+    session = ChatSession.query.filter_by(user_1_id=user_1.id, user_2_id=user_2.id).first()
+    if not session:
+        # Create a new chat session
+        new_session = ChatSession(user_1_id=user_1.id, user_2_id=user_2.id)
+        db.session.add(new_session)
+        db.session.commit()
+        return new_session
+    return session  # If session already exists, return it
+

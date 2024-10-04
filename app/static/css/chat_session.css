@@ -1,0 +1,48 @@
+
+/* Chat Box */
+.chat-box {
+    display: none; /* Initially hidden */
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px; /* Rounded corners */
+}
+
+.chat-session .messages {
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    background: #222; /* Dark background for messages */
+}
+
+.chat-session textarea {
+    width: 100%;
+    height: 50px;
+    border-radius: 3px; /* Rounded corners */
+}
+
+.chat-session button {
+    display: block;
+    margin-top: 5px;
+    border-radius: 3px; /* Rounded corners */
+}
+
+/* Chat Tabs */
+.chat-tabs {
+    margin-bottom: 10px;
+}
+
+.tablink {
+    background-color: #0f0;
+    color: #000;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 3px; /* Rounded corners */
+    margin-right: 5px;
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+.tablink:hover {
+    background: #0c0;
+}

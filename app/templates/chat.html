@@ -41,6 +41,25 @@
                 {% endfor %}
             </ul>
         </div>
+        <div class="chat-session">
+            <div class="chat-tabs">
+                {% for active_user in active_users %}
+                 <button class="tablink" onclick="openChat(event, 'Chat{{ active_user.id }}')">
+                        Chat with {{ active_user.username }}
+                    </button>
+                {% endfor %}
+            </div>
+            
+            {% for active_user in active_users %}
+                <div id="Chat{{ active_user.id }}" class="chat-box" style="display:none;">
+                    <div class="messages" id="chat-box-{{ active_user.id }}">
+                        <!-- Messages for {{ active_user.username }} will be displayed here -->
+                    </div>
+                    <textarea id="message-{{ active_user.id }}"></textarea>
+                    <button onclick="sendMessage('chat-box-{{ active_user.id }}', 'message-{{ active_user.id }}')">Send</button>
+                </div>
+            {% endfor %}
+        </div>
         
         <div class="active-users">
             <h2>Active Users</h2>
@@ -66,6 +85,7 @@
 
     <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
     <script src="{{ url_for('static', filename='js/active.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/newchat.js') }}"></script>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 </body>
 </html>

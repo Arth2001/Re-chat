@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with User {{ user_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/newchat.js') }}"></script>
+</head>
+<body>
+    <div class="chat-box" id="chat-box-{{ user_id }}">
+        <div class="messages"></div>
+        <textarea id="message-input-{{ user_id }}" placeholder="Type your message...."></textarea>
+        <button class="send-message-btn" data-chat-box-id="chat-box-{{ user_id }}">Send</button>
+    </div>
+    
+
+</body>
+</html>
